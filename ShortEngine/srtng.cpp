@@ -147,9 +147,7 @@ int Qcksrt::partition(class Array *arr, int start, int end)
 
 
 void Qcksrt::sort(class Array *arr)
-{
-	printf("Quick Sort\n\n");
-		
+{		
 	quick_sort(arr, 0, arr->get_size());
 }	
 
@@ -207,7 +205,7 @@ void Engine::srt_play(class Sort **srt, int size)
 
 		chk_srt(&obj);
 
-		printf("time taken = %ld \n", t2 - t1);
+		printf("time taken = %ld \n\n", t2 - t1);
 
 		i++;
 	}
