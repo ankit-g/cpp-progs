@@ -3,6 +3,11 @@ Simple Sorting frame work to compare sorting algos easily.
 Just extend class Sort in implement name and sort virtual methods.
 It will compare the time you sorting method took with the previous sorting algo.
 
+-> Compile the file using g++ and link rt library.
+	-example : g++ srtng.cpp -lrt 
+
+-> ./a.out <no of elements you want to sort>
+
 FUTURE:
 
 Implement Sorting Check Method in Engine Class.
