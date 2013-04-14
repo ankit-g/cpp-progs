@@ -104,7 +104,7 @@ void Bblsrt::sort(class Array *obj)
 class Qcksrt : public Sort
 {
 private:
-	int partition(class Array *);		
+	int partition(class Array *, int , int);		
 public:
 	void name(void)
 	{
@@ -114,11 +114,10 @@ public:
 	void sort(class Array *);
 };
 
-int Qcksrt::partition(class Array *arr)
+int Qcksrt::partition(class Array *arr, int start, int size)
 {
-	int i = -1;
+	int i = start -1;
 	int j;
-	int size = arr->get_size();
 	int pivot = arr->get(size-1);
 
 	for(j = 0; j < size; j++)
@@ -140,11 +139,9 @@ int Qcksrt::partition(class Array *arr)
 
 void Qcksrt::sort(class Array *arr)
 {
-	printf("Quick Sort\n");
-	arr->display();
-	printf("\n");
+	printf("Quick Sort\n\n");
 		
-	partition(arr);
+	partition(arr, 0, arr->get_size());
 }	
 
 class Engine
