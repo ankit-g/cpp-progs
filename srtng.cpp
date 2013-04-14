@@ -68,13 +68,18 @@ class Sort
 {
 public:	
 	virtual void sort(class Array *) =0;
+	virtual void name(void) =0;
 };
 
 
 class Bblsrt : public Sort
 {
 public:
-	void sort(class Array *);		
+	void sort(class Array *);
+	void name(void)
+	{	
+		printf("Ankit Bblsrt\n");
+	}		
 };
 
 
@@ -95,13 +100,46 @@ void Bblsrt::sort(class Array *obj)
 	}			
 }
 
+
+class Qcksrt : public Sort
+{
+public:
+	void name(void)
+	{
+		printf("Ankit Qcksrt\n");
+	}		
+	
+	void sort(class Array *);
+};
+
+void Qcksrt::sort(class Array *arr)
+{
+	printf("Quick Sort\n");
+}	
+
 class Engine
 {
 private:
 	struct timespec time;
-public:
 	long get_time(void);
+	int chk_srt(class Array *);
+public:
+	void srt_play(class Sort **, int );
 };
+
+int Engine::chk_srt(class Array *obj)
+{
+	int size = obj->get_size();
+	int i;
+	
+	for(i = 0; i < (size -1); i++) 
+		if(obj->get(i) > obj->get(i+1)) { 
+			printf("Array was not sorted :(\n");
+			return -1;	
+		}
+	printf("Array was sorted\n");
+	return 0;
+}
 
 long Engine::get_time(void)
 {
@@ -109,30 +147,52 @@ long Engine::get_time(void)
 	return time.tv_nsec;
 }
 
+void Engine::srt_play(class Sort **srt, int size)
+{
+	int i = 0;
+	unsigned long t1, t2;
+	class Array obj(size);	
+	
+	if(!srt) {
+		printf("No Sorting Obj Provided\n");
+		exit(0);
+	}
+
+	while(srt[i])
+	{
+		obj.init();	
+
+		t1 = get_time();
+
+		(*(srt+i))->name();
+		(*(srt+i))->sort(&obj);
+
+		t2 = get_time();
+
+		chk_srt(&obj);
+
+		printf("time taken = %ld \n", t2 - t1);
+
+		i++;
+	}
+	
+}
+
 class Bblsrt bbl;
+class Qcksrt qck;
 
 class Sort *srt[] = {
 	&bbl,
+	&qck,
 	NULL
 };
 
 int main(int argc, char **argv)
 {
-	long t1, t2;
-
-	class Engine tobj;	
+	class Engine obj;	
 	int size = atoi(argv[1]);
-	class Array obj(size);	
 	
-	obj.init();	
-
-	t1 = tobj.get_time();
-	srt[0]->sort(&obj);
-	t2 = tobj.get_time();
-
-//	obj.display();
-	
-	printf("time taken = %ld \n", t2 - t1);
+	obj.srt_play(srt, size);
 
 	return 0;
 }
