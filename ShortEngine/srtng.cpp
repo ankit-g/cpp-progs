@@ -17,7 +17,7 @@ public:
 	}
 	~Array()
 	{
-		delete arr;
+		delete[] arr;
 	}	
 	
 	inline int get_size(void)
@@ -71,6 +71,95 @@ public:
 	virtual void name(void) =0;
 };
 
+
+class Mergesrt : public Sort
+{
+
+private :
+	
+	void merge_sort(class Array *,int ,int);
+	void merge(class Array*,int ,int ,int);
+public :
+
+	int *healper;	
+	void sort(class Array *);
+	void name(void)
+	{
+		printf("Vipin mergesort\n");
+	}
+
+	~Mergesrt()
+	{
+	delete[] healper;
+	}
+};
+
+
+
+
+void Mergesrt::sort(class Array *arr)
+{	
+	healper=new int[arr->get_size()];
+	merge_sort(arr,0,arr->get_size()-1);
+}
+
+
+
+void Mergesrt::merge_sort(class Array *arr,int l,int h)
+{
+
+if(l<h)
+{		
+int mid=(l+h)/2;
+merge_sort(arr,l,mid);
+merge_sort(arr,mid+1,h);
+merge(arr,l,mid,h);
+
+}
+
+}
+
+
+
+void Mergesrt::merge(class Array *arr,int low,int mid,int high)
+{
+
+
+int k=low,n=mid+1,p=low;
+
+while(k<=high)
+	{
+		healper[k]=arr->get(k);
+		k++;
+	}
+
+
+
+		k=low;
+
+while(k<=mid && n<=high)
+	{
+
+		if(healper[k]<healper[n])
+		{
+			arr->set(p,healper[k]);
+			k++;
+		}
+		else
+		{
+			arr->set(p,healper[n]);
+			n++;
+		}
+		p++;
+	}
+
+while(k<=mid)
+	{
+		arr->set(p,healper[k]);
+		k++;p++;
+	}
+
+}
 
 class Bblsrt : public Sort
 {
@@ -194,28 +283,31 @@ void Engine::srt_play(class Sort **srt, int size)
 
 	while(srt[i])
 	{
-		obj.init();	
-
+		obj.init();
+		//printf("array before sorting");	
+		//obj.display();
 		t1 = get_time();
 
 		(*(srt+i))->name();
 		(*(srt+i))->sort(&obj);
 
 		t2 = get_time();
-
+       
 		chk_srt(&obj);
-
+         	//printf("array after sorting");
+		//obj.display();
 		printf("time taken = %ld \n\n", t2 - t1);
-
+		
 		i++;
 	}
-	
 }
 
 class Bblsrt bbl;
 class Qcksrt qck;
+class Mergesrt msrt;
 
 class Sort *srt[] = {
+	&msrt,
 	&bbl,
 	&qck,
 	NULL
